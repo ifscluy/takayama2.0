@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TAKAYAMA MASANORI</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@600;900&family=Rajdhani:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --r:#b80000;--r2:#ff2222;--rd:rgba(184,0,0,0.1);
+  --w:#eeebe8;--wd:#8a8886;
+  --bk:#090909;--bk2:#0f0f0f;
+  --br:rgba(238,235,232,0.1);--brr:rgba(184,0,0,0.28);
+}
+body{background:var(--bk);color:var(--w);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.025) 3px,rgba(0,0,0,0.025) 4px);pointer-events:none;z-index:9000;}
+
+#gate{display:none;}
+
+.access{
+  position:fixed;inset:0;background:var(--bk);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:28px;z-index:8000;
+  transition:opacity 0.5s ease,visibility 0.5s ease;
+}
+#gate:checked ~ .access{opacity:0;visibility:hidden;pointer-events:none;}
+
+.ac-logo{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;color:var(--r);letter-spacing:0.3em;text-align:center;}
+.ac-logo span{display:block;font-size:9px;color:var(--wd);margin-top:4px;letter-spacing:0.2em;}
+.ac-line{width:140px;height:1px;background:linear-gradient(to right,transparent,var(--r),transparent);}
+.ac-txt{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--wd);letter-spacing:0.1em;text-align:center;line-height:1.9;}
+.blink{animation:bl 1.2s step-end infinite;}
+@keyframes bl{50%{opacity:0;}}
+.btn{display:inline-block;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.22em;color:var(--r2);border:1px solid var(--brr);background:var(--rd);padding:10px 30px;cursor:pointer;position:relative;transition:background 0.2s,border-color 0.2s;}
+.btn:hover{background:rgba(184,0,0,0.2);border-color:var(--r);}
+.btn::before,.btn::after{content:'';position:absolute;width:6px;height:6px;border-color:var(--r);border-style:solid;}
+.btn::before{top:-1px;left:-1px;border-width:1px 0 0 1px;}
+.btn::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0;}
+
+#main{max-width:660px;margin:0 auto;padding:40px 22px 80px;opacity:0;visibility:hidden;transition:opacity 0.7s ease 0.3s,visibility 0.7s ease 0.3s;}
+#gate:checked ~ #main{opacity:1;visibility:visible;}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--brr);padding-bottom:7px;margin-bottom:26px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--r);letter-spacing:0.1em;}
+.topbar span{color:var(--wd);}
+
+.card{display:grid;grid-template-columns:210px 1fr;gap:22px;margin-bottom:22px;}
+.imgw{position:relative;overflow:hidden;border:1px solid var(--br);}
+.imgw img{width:100%;display:block;filter:contrast(1.04) brightness(0.87) saturate(0.78);}
+.imgw::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(9,9,9,0.88) 100%);pointer-events:none;}
+.scan{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--r),transparent);animation:sc 4s linear infinite;z-index:2;opacity:0.45;}
+@keyframes sc{0%{top:0;opacity:0.45;}90%{opacity:0.45;}100%{top:100%;opacity:0;}}
+.imgtag{position:absolute;bottom:7px;left:8px;font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--r);letter-spacing:0.08em;z-index:3;}
+
+.prf{display:flex;flex-direction:column;}
+.name{font-family:'Orbitron',sans-serif;font-size:17px;font-weight:900;color:var(--w);letter-spacing:0.03em;line-height:1.1;margin-bottom:3px;}
+.namejp{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--r);letter-spacing:0.2em;margin-bottom:16px;}
+.row{display:flex;gap:10px;padding:4px 0;border-bottom:1px solid rgba(238,235,232,0.04);align-items:baseline;}
+.lbl{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--r);letter-spacing:0.1em;min-width:78px;flex-shrink:0;}
+.val{font-size:11px;font-weight:500;color:var(--wd);letter-spacing:0.03em;}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px;}
+.tag{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.1em;padding:2px 7px;border:1px solid var(--brr);color:var(--r);background:var(--rd);}
+
+.sh{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--r);letter-spacing:0.18em;margin-bottom:9px;display:flex;align-items:center;gap:8px;}
+.sh::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--brr),transparent);}
+.bio{font-size:12.5px;font-weight:400;color:var(--wd);line-height:1.75;letter-spacing:0.02em;margin-bottom:16px;}
+
+.ticker{position:fixed;bottom:0;left:0;right:0;height:28px;background:var(--bk2);border-top:1px solid var(--r);overflow:hidden;z-index:8999;}
+.ticker::before,.ticker::after{content:'';position:absolute;top:0;bottom:0;width:44px;z-index:2;}
+.ticker::before{left:0;background:linear-gradient(to right,var(--bk2),transparent);}
+.ticker::after{right:0;background:linear-gradient(to left,var(--bk2),transparent);}
+.track{display:flex;align-items:center;height:100%;white-space:nowrap;animation:tk 22s linear infinite;}
+@keyframes tk{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.ti{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--r);margin-right:40px;}
+.ti.w{color:var(--wd);}
+.ts{color:var(--r);margin-right:40px;font-family:'Share Tech Mono',monospace;font-size:9px;}
+
+@media(max-width:520px){.card{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<audio autoplay loop>
+  <source src="https://files.catbox.moe/t3e502.mp3" type="audio/mpeg"/>
+</audio>
+
+<input type="checkbox" id="gate"/>
+
+<div class="access">
+  <div class="ac-logo">MASANORI INDUSTRIES<span>SECURE ARCHIVE · RESTRICTED ACCESS</span></div>
+  <div class="ac-line"></div>
+  <div class="ac-txt">// IDENTITY UNVERIFIED<br/>SUBJECT: CONFIDENTIAL &nbsp;·&nbsp; CLEARANCE: PENDING<br/><span class="blink">▮</span></div>
+  <label class="btn" for="gate">[ ACCESS FILE ]</label>
+</div>
+
+<div id="main">
+
+  <div class="topbar">
+    <b>MASANORI INDUSTRIES</b>
+    <span>MAS-001 &nbsp;·&nbsp; <span class="blink">▮</span> SECURE</span>
+  </div>
+
+  <div class="card">
+    <div class="imgw">
+      <div class="scan"></div>
+      <img src="https://i.ibb.co/HLZbkzzv/3aa451607d134f184bc2f592fbbfb8c0.jpg"
+           alt="Takayama Masanori"/>
+      <div class="imgtag">[ TAKAYAMA MASANORI ]</div>
+    </div>
+    <div class="prf">
+      <div class="name">TAKAYAMA<br/>MASANORI</div>
+      <div class="namejp">高山 正則</div>
+      <div class="row"><span class="lbl">// AFFILIATION</span><span class="val">Masanori Industries</span></div>
+      <div class="row"><span class="lbl">// ROLE</span><span class="val">Founder &amp; Chief Architect</span></div>
+      <div class="row"><span class="lbl">// FIELD</span><span class="val">Magitech · Medicine · Engineering</span></div>
+      <div class="tags">
+        <span class="tag">NON-MAGI ADVOCATE</span>
+        <span class="tag">DRONE ESCORT</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sh">// DOSSIER</div>
+  <p class="bio">Takayama spent his life in seclusion, sharpening his mind around a single conviction: that magitech did not need magic to become a real and equal force. His foundation was built on medicine — understanding, sustaining, and expanding the human body through magitech implants. From medicine, he moved into engineering; from engineering, into a distinct architecture, alien by Meranthe's standards.</p>
+  <p class="bio">His mission has always been the <em>non-magi</em> population — ordinary people who bear a disproportionate weight of conflicts they never chose. Takayama believes, with near-clinical clarity, that progress is the answer.</p>
+  <p class="bio">He does not go unarmed. The weapon he carries is his own invention — something that did not exist before he built it. It is a large rifle, dark and pearlescent, with a silhouette that feels displaced from any known era. Energy coils run partially exposed along its body, and when active, a low mechanical rhythm pulses through it — rotating pistons drawing power from its wielder's mana, steady and deliberate, like a heartbeat announcing its presence. It was designed not only to destroy, but to command. The rifle serves as a mother unit: upon activation, it deploys a network of smaller autonomous drones — compact, silent, purpose-built for threat response. They extend his reach into spaces he cannot occupy, and they answer to nothing else.</p>
+
+</div>
+
+<div class="ticker">
+  <div class="track">
+    <span class="ti">MASANORI INDUSTRIES — ACTIVE</span><span class="ts">▮</span>
+    <span class="ti w">FOUNDER: TAKAYAMA MASANORI</span><span class="ts">▮</span>
+    <span class="ti">NON-MAGI ADVANCEMENT DIRECTIVE</span><span class="ts">▮</span>
+    <span class="ti w">WEAPON: PROPRIETARY · UNREGISTERED</span><span class="ts">▮</span>
+    <span class="ti">DRONE UNITS: ACTIVE</span><span class="ts">▮</span>
+    <span class="ti w">PROGRESS IS THE ANSWER</span><span class="ts">▮</span>
+    <span class="ti">MASANORI INDUSTRIES — ACTIVE</span><span class="ts">▮</span>
+    <span class="ti w">FOUNDER: TAKAYAMA MASANORI</span><span class="ts">▮</span>
+    <span class="ti">NON-MAGI ADVANCEMENT DIRECTIVE</span><span class="ts">▮</span>
+    <span class="ti w">WEAPON: PROPRIETARY · UNREGISTERED</span><span class="ts">▮</span>
+    <span class="ti">DRONE UNITS: ACTIVE</span><span class="ts">▮</span>
+    <span class="ti w">PROGRESS IS THE ANSWER</span><span class="ts">▮</span>
+  </div>
+</div>
+
+</body>
+</html>
